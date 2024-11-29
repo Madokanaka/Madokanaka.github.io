@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Земля</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 80px auto;
+            background-color: #000;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .planet-images img {
+            width: 80px;
+            height: 80px;
+            margin: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: all 1.5s ease-in-out;
+        }
+
+        .planet-images img:hover {
+            transform: rotate(180deg) scale(1.05);
+            transition: transform 0.7s ease;
+        }
+
+        .planet-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        h1 {
+            color: #00d4ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container text-center p-5">
+        <h1>Солнечная Система</h1>
+        <div class="planet-images my-4 d-flex ps-5 pe-3 justify-content-between">
+            <div class="home align-self-center "><a href="./index.html" class="planet-link solar">
+                    <img src="./image/image.jpg" alt="Земля" title="Земля">
+                </a></div>
+            <div class="planet-icons">
+                <a href="./earth.html" class="planet-link">
+                    <img src="./image/earth-180x180.png" alt="Земля" title="Земля">
+                </a>
+                <a href="./jupiter.html" class="planet-link ms-5">
+                    <img src="./image/jupiter-180x180.png" alt="Юпитер" title="Юпитер">
+                </a>
+                <a href="./neptune.html" class="planet-link ms-5">
+                    <img src="./image/neptune-180x180.png" alt="Нептун" title="Нептун">
+                </a>
+                <a href="./venus.html" class="planet-link ms-5">
+                    <img src="./image/venus-180x180.png" alt="Венера" title="Венера">
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <img src="./image/earth.jpeg" alt="Solar System">
+            </div>
+
+            <div class="col-md-8 pt-4">
+                <p>
+                    Земля — третья планета от Солнца и пятая по величине в Солнечной системе. Её диаметр составляет
+                    около 12 742 километров, что делает её значительно меньше Юпитера и Сатурна, но крупнее Меркурия,
+                    Венеры и Марса. Земля имеет форму, близкую к сферической, но слегка сплюснутую у полюсов из-за
+                    вращения вокруг своей оси.
+
+                </p>
+                <p>
+                    Общая площадь поверхности Земли составляет около 510 миллионов квадратных километров, из которых
+                    примерно 71% покрыты водой, а оставшиеся 29% занимают континенты и острова. Важным аспектом является
+                    то, что Земля обладает довольно тонкой атмосферой, которая защищает нас от солнечного излучения и
+                    сохраняет условия, подходящие для жизни.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
