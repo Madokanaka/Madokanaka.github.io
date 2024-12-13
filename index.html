@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Quiz</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .quiz-container {
+            margin-top: 50px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .answer-card {
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .correct-answer-card {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .incorrect-answer-card {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .result-message {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container quiz-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-center">Trivia Quiz</h1>
+                <div id="quiz" class="text-center">
+                    <div id="question" class="question"></div>
+                    <div id="answers"></div>
+                    <div id="result" class="result-message"></div>
+                </div>
+                <button id="nextButton" class="btn btn-primary mt-3" style="display: none;">Next Question</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const apiUrl = 'https://opentdb.com/api.php?amount=1&type=multiple&lang=ru';
+
+        let currentQuestionIndex = 0;
+        let currentQuestion;
+        let hasAnswered = false;
+
+        function fetchQuestion() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    currentQuestion = data.results[0];
+                    showQuestion();
+                })
+                .catch(error => console.error('Error fetching the question:', error));
+        }
+
+        function showQuestion() {
+            $('#question').text(decodeHTMLEntities(currentQuestion.question));
+            const answers = [...currentQuestion.incorrect_answers, currentQuestion.correct_answer];
+            shuffleArray(answers);
+
+            $('#answers').empty();
+            answers.forEach((answer, index) => {
+                const answerCard = $('<div>')
+                    .addClass('answer-card')
+                    .text(decodeHTMLEntities(answer))
+                    .click(() => checkAnswer(answer, answerCard));
+                $('#answers').append(answerCard);
+            });
+
+            $('#result').text(''); 
+            $('#nextButton').hide(); 
+        }
+
+        function checkAnswer(selectedAnswer, answerCard) {
+            if (hasAnswered) return; 
+
+            hasAnswered = true;
+            const isCorrect = selectedAnswer === currentQuestion.correct_answer;
+            const resultMessage = isCorrect ? 'Correct! 🎉' : 'Incorrect! 😢';
+
+            $('#result').text(resultMessage).removeClass().addClass(isCorrect ? 'result-message correct-answer' :
+                'result-message incorrect-answer');
+
+            $('#answers .answer-card').each(function () {
+                const card = $(this);
+                if (card.text() === currentQuestion.correct_answer) {
+                    card.addClass('correct-answer-card');
+                } else if (card.text() === selectedAnswer && !isCorrect) {
+                    card.addClass('incorrect-answer-card');
+                }
+                card.prop('disabled', true); 
+            });
+
+            $('#nextButton').show();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function decodeHTMLEntities(str) {
+            var element = document.createElement('div');
+            element.innerHTML = str;
+            return element.textContent || element.innerText;
+        }
+
+        $(document).ready(function () {
+            fetchQuestion();
+
+            $('#nextButton').click(function () {
+                currentQuestionIndex++;
+                $('#result').text(''); 
+                hasAnswered = false; 
+                fetchQuestion();
+            });
+        });
+    </script>
+</body>
+
+</html>
